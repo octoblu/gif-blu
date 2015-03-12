@@ -1,0 +1,21 @@
+{
+  "name": "gif-blu",
+  "repository": "octoblu/gif-blu",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node command.js",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "meshblu": "^1.9.0",
+    "debug": "^2.1.0"
+  },
+  "keywords": [
+    "meshblu-connector",
+    "gateblu",
+    "cats",
+    "gifs",
+    "interwebs",
+    "awesome"
+  ]
+}
