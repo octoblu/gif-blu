@@ -56,6 +56,10 @@ var Connector = function(config) {
     conx.message(message);
   });
 
+  plugin.on('data', function(message){
+    conx.data(message);
+  });
+
   plugin.on('error', consoleError);
 };
 
