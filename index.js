@@ -71,7 +71,6 @@ Plugin.prototype.getGifs = function (payload) {
     options.qs.q = payload.search;
   }
   options.uri = baseUrl;
-  console.log(options);
 
   request(options, function (error, response, body) {
     self.emit('data', JSON.parse(body));
