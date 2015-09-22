@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+  - npm install npm -g
+before_deploy:
+  - npm install ws browserify coffeeify
+  - mkdir -p deploy/meshblu-giphy/latest
+  - mkdir -p deploy/meshblu-giphy/$TRAVIS_TAG
+  - node_modules/.bin/browserify -t coffeeify -s Connector connector.js > deploy/meshblu-giphy/latest/meshblu-giphy.js
+  - gzip deploy/meshblu-giphy/latest/meshblu-giphy.js
+  - mv deploy/meshblu-giphy/latest/meshblu-giphy.js.gz deploy/meshblu-giphy/latest/meshblu-giphy.js
+  - cp deploy/meshblu-giphy/latest/meshblu-giphy.js deploy/meshblu-giphy/$TRAVIS_TAG/meshblu-giphy.js
+deploy:
+  - provider: s3
+    region: us-west-2
+    skip_cleanup: true
+    detect_encoding: true
+    access_key_id: AKIAJH2D5IPIRHYJT5IA
+    secret_access_key:
+      secure: "RGxH4azEhnaVB3dT5B0s6tDrsuaE0G796QeKAu1n2oADgDwIWfm5ZgGeAPdixe7I7gQwjq8OOzNNkvR5IM596qf3OFGSr7Xt7dSZgI9V7ndT3cfrCBAomNHgvO3wfE/a1IKDJpt8GC12IQvFCQ54pWrPeiAqn/tIpKwE+wIbaM4="
+    bucket: octoblu-cdn
+    local-dir: deploy
+    upload-dir: js
+    on:
+      tags: true
+      all_branches: true
+  - provider: npm
+    skip_cleanup: true
+    clean_up: false
+    email: serveradmin@octoblu.com
+    api_key:
+      secure: "GvXbSjfex8Imrek86HG2XxpScsZ7sP7mcQNyOw2HqqZmYpLaiIYOT7C3QWsi0jOO4iRsNdahXoVmyTl7CZBW8PQc5iLT1CyXd0MJfqDs/YRrXOPh4J6LBjdmI/D7/0enZ/CUSn2nZ1OO3iFC7MozzZyN4BQR+uaLhlsFu1B/Yw4="
+    on:
+      tags: true
+      all_branches: true
